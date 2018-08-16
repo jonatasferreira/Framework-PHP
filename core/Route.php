@@ -40,6 +40,24 @@ class Route
 	}
 
 	/**
+	 * Método para capturar os GET's e POST's.
+	 * 
+	 * @access private
+	 * @return stdClass
+	 */
+	private function getRequest()
+	{
+		$obj = new \stdClass;
+		foreach ($_GET as $key => $value) {
+			$obj->get->$key = $value;
+		}
+		foreach ($_POST as $key => $value) {
+			$obj->post->$key = $value;
+		}
+		return $obj;
+	}
+
+	/**
 	 * Método para obter a url.
 	 * 
 	 * @access private
@@ -74,12 +92,12 @@ class Route
 				}
 			}
 			if (strcmp($url, $route[0]) == 0) {
-				echo 'url: '.$route[0].'<br>';
-				echo 'Controller: '.$route[1].'<br>';
-				echo 'Action: '.$route[2].'<br>';
-				foreach ($params as $value) {
-					echo 'params: '.$value.'<br>';
-				}
+				// echo 'url: '.$route[0].'<br>';
+				// echo 'Controller: '.$route[1].'<br>';
+				// echo 'Action: '.$route[2].'<br>';
+				// foreach ($params as $value) {
+				// 	echo 'params: '.$value.'<br>';
+				// }
 				$found = true;
 				$controller = $route[1];
 				$action = $route[2];
@@ -87,7 +105,23 @@ class Route
 			}
 		}
 		if ($found) {
-			# code...
+			$controller = Container::newController($controller);
+			switch (count($params)) {
+				case 1:
+					$controller->$action($params[0], $this->getRequest());
+					break;
+				case 2:
+					$controller->$action($params[0], $params[1], $this->getRequest());
+					break;
+				case 3:
+					$controller->$action($params[0], $params[1], $params[2], $this->getRequest());
+					break;
+				default:
+					$controller->$action( $this->getRequest());
+					break;
+			}
+		}else {
+			echo 'Página não encontrada!';
 		}
 	}
 }
