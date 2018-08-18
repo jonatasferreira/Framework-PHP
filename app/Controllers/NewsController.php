@@ -2,10 +2,12 @@
 
 namespace App\Controllers;
 
+use Core\BaseController;
+
 /**
  * Classe Notícias
  */
-class NewsController
+class NewsController extends BaseController
 {
 	/**
 	 * Construtor da classe.
@@ -28,7 +30,7 @@ class NewsController
 	}
 
 	/**
-	 * Para exibir uma news.
+	 * Para exibir uma new.
 	 * 
 	 * @param $id: Id da new.
 	 * @access public

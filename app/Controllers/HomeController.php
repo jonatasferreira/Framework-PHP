@@ -2,10 +2,12 @@
 
 namespace App\Controllers;
 
+use Core\BaseController;
+
 /**
  * Classe home
  */
-class HomeController
+class HomeController extends BaseController
 {
 	/**
 	 * Construtor da classe.
@@ -24,6 +26,7 @@ class HomeController
 	 */
 	public function index()
 	{
-		echo 'home';
+		$this->view->nome = "Framework php";
+		$this->renderView("home/index");
 	}
 }
